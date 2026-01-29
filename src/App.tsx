@@ -5,7 +5,7 @@ import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
 import SumPage from "./pages/SumPage";
 import MultiplyPage from "./pages/MultiplyPage";
-
+import NotFoundPage from "./pages/NotFoundPage";
 
 
 const linkBtnSx = {
@@ -51,6 +51,7 @@ export default function App() {
           <Route path="/productos" element={<ProductsPage />} />
           <Route path="/suma" element={<SumPage />} />
           <Route path="/multiplica" element={<MultiplyPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Container>
     </>

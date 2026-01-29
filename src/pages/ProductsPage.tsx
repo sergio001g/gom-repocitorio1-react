@@ -46,11 +46,11 @@ export default function ProductsPage() {
   return (
     <Paper sx={{ p: 3, borderRadius: 3 }}>
       <Typography variant="h5" fontWeight={900} gutterBottom>
-        Productos
+      Listado de Usuarios (API)
       </Typography>
 
       <Typography color="text.secondary" sx={{ mb: 2 }}>
-        API: /products/?page=1&page_size=100 (sin paginación en la interfaz)
+      https://rickandmortyapi.com/api/character
       </Typography>
 
       {error && (
@@ -72,7 +72,6 @@ export default function ProductsPage() {
               <TableCell>Foto</TableCell>
               <TableCell>Nombre</TableCell>
               <TableCell>age</TableCell>
-
               <TableCell>Foto</TableCell>
             </TableRow>
           </TableHead>
