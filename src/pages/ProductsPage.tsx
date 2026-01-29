@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+
+  import { useEffect, useState } from "react";
 import {
   Alert,
   Box,
@@ -12,8 +13,15 @@ import {
   Typography,
 } from "@mui/material";
 
+type Character = {
+  id: number;
+  name: string;
+  image: string;
+  status: string;
+};
+
 export default function ProductsPage() {
-  const [items, setItems] = useState<any[]>([]);
+  const [items, setItems] = useState<Character[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -23,18 +31,11 @@ export default function ProductsPage() {
       setError(null);
 
       try {
-        // Sin paginación en UI: pedimos un page_size grande y mostramos lo que venga
-        const url =
-          "https://rickandmortyapi.com/api/character";
-        const res = await fetch(url);
+        const res = await fetch("https://rickandmortyapi.com/api/character");
         const data = await res.json();
-
-        // La API suele devolver { count, next, previous, results: [] }
-        const list = Array.isArray(data?.results) ? data.results : Array.isArray(data) ? data : [];
-        setItems(list);
-      } catch (e: any) {
-        console.error(e);
-        setError("No se pudo cargar productos (revisa consola / red).");
+        setItems(data.results || []);
+      } catch (e) {
+        setError("No se pudo cargar la información.");
       } finally {
         setLoading(false);
       }
@@ -46,57 +47,46 @@ export default function ProductsPage() {
   return (
     <Paper sx={{ p: 3, borderRadius: 3 }}>
       <Typography variant="h5" fontWeight={900} gutterBottom>
-      Listado de Usuarios (API)
+        Listado de Usuarios (API Rick & Morty)
       </Typography>
 
-      <Typography color="text.secondary" sx={{ mb: 2 }}>
-      https://rickandmortyapi.com/api/character
-      </Typography>
-
-      {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>
-      )}
+      {error && <Alert severity="error">{error}</Alert>}
 
       {loading ? (
         <Box sx={{ display: "flex", justifyContent: "center", py: 5 }}>
           <CircularProgress />
         </Box>
-      ) : items.length === 0 ? (
-        <Alert severity="info">No hay productos para mostrar.</Alert>
       ) : (
         <Table size="small">
           <TableHead>
             <TableRow>
-            
               <TableCell>ID</TableCell>
               <TableCell>Foto</TableCell>
               <TableCell>Nombre</TableCell>
-              <TableCell>age</TableCell>
-              <TableCell>Foto</TableCell>
+              <TableCell>Estado</TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {items.map((p, idx) => (
-              <TableRow key={p?.id ?? idx} hover>
-                <TableCell>{p?.id ?? "-"}</TableCell>
-                <TableCell>{p?.name ?? "-"}</TableCell>
-                <TableCell>{p?.age ?? "-"}</TableCell>
-                <TableCell align="right">{p?.Edad ?? "-"}</TableCell>
+            {items.map((p) => (
+              <TableRow key={p.id} hover>
+                <TableCell>{p.id}</TableCell>
+
                 <TableCell>
-                  {p?.url_image ? (
-                    <img
-                      src={p.url_image}
-                      style={{ width: 48, height: 48, objectFit: "cover", borderRadius: 8, border: "10px solid rgba(0,0,0,.15)" }}
-                      onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).src =
-                          "https://rickandmortyapi.com/api/character";
-                      }}
-                    />
-                  ) : (
-                    <span style={{ color: "#667085" }}>—</span>
-                  )}
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 8,
+                      objectFit: "cover",
+                    }}
+                  />
                 </TableCell>
+
+                <TableCell>{p.name}</TableCell>
+                <TableCell>{p.status}</TableCell>
               </TableRow>
             ))}
           </TableBody>
