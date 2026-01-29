@@ -1,5 +1,5 @@
 
-  import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Alert,
   Box,
@@ -63,7 +63,7 @@ export default function ProductsPage() {
               <TableCell>ID</TableCell>
               <TableCell>Foto</TableCell>
               <TableCell>Nombre</TableCell>
-              <TableCell>Estado</TableCell>
+              <TableCell>Edad no existe por eso pongo status </TableCell>
             </TableRow>
           </TableHead>
 
